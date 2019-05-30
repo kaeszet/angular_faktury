@@ -1,0 +1,36 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">LP</th>
+      <th scope="col">Nazwa pozycji</th>
+      <th scope="col">Wartość</th>
+      <th scope="col">Jednostka</th>
+      <th scope="col">Cena netto</th>
+      <th scope="col">Podatek</th>
+      <th scope="col">Brutto</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let position of positions; let index = index">
+      <th scope="row">{{index + 1}}</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>
+        <button (click)=usunPozycje(position)>
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="faktura-pozycje__actions">
+  <button (click)="dodajPozycje()" type="button" class="btn btn-primary faktura-pozycje__action">
+    dodaj pozycję
+    <i class="fa fa-plus"></i>
+  </button>
+</div>

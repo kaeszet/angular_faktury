@@ -1,0 +1,10 @@
+.faktura-pozycje {
+    &__actions {
+        display: flex;
+        align-items: center;
+        justify-content: center
+    }
+    &__add-action {
+        margin: auto
+    }
+}
