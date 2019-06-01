@@ -3,7 +3,7 @@
     <tr>
       <th scope="col">LP</th>
       <th scope="col">Nazwa pozycji</th>
-      <th scope="col">Wartość</th>
+      <th scope="col">Ilość</th>
       <th scope="col">Jednostka</th>
       <th scope="col">Cena netto</th>
       <th scope="col">Podatek</th>
@@ -12,20 +12,12 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let position of positions; let index = index">
-      <th scope="row">{{index + 1}}</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
-      <td>
-        <button (click)=usunPozycje(position)>
-          <i class="fa fa-trash"></i>
-        </button>
-      </td>
-    </tr>
+    <app-pojedyncza-pozycja
+      *ngFor="let pozycja of pozycje; let index = index"
+      [pozycja]=pozycja
+      [lp]= index+1
+      (pozycjaUsunieta)=usunPozycje($event)
+    ></app-pojedyncza-pozycja>
   </tbody>
 </table>
 <div class="faktura-pozycje__actions">

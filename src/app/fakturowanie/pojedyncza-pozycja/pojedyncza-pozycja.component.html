@@ -1,0 +1,40 @@
+<th scope="row">
+  {{lp}}
+</th>
+<td>
+  <input class="form-control" type="text" name="nazwa" [value]=pozycja.nazwa />
+</td>
+<td>
+  <input class="form-control" type="number" name="ilosc" [value]=pozycja.ilosc />
+</td>
+<td>
+  <select class="form-control" name="jednostka" [value]=pozycja.jednostka>
+    <option *ngFor="let u of dostepneJednostki" [value]=u>{{u}}</option>
+  </select>
+</td>
+<td>
+  <div class="input-group">
+    <input [(ngModel)]=pozycja.netto type="number" class="form-control" name="netto" [value]=pozycja.netto (change)=przechwycZmianeNetto($event) />
+    <div class="input-group-append">
+      <span class="input-group-text">PLN</span>
+    </div>
+  </div>
+  
+</td>
+<td>
+    <select [(ngModel)]=pozycja.podatek class="form-control" name="podatek" [value]=pozycja.podatek (change)=przechwycZmianePodatku($event)>
+        <option *ngFor="let t of dostepneStawkiPodatku" [value]=t>{{t}}</option>
+    </select>
+</td>
+<td>
+  <div class="input-group">
+    <input [(ngModel)]=pozycja.brutto type="text" class="form-control" name="brutto" [value]=pozycja.brutto (change)=przechwycZmianeBrutto($event) />
+    <div class="input-group-append">
+      <span class="input-group-text">PLN</span>
+    </div>
+  </div>
+<td>
+  <button (click)=usunPozycje()>
+    <i class="fa fa-trash"></i>
+  </button>
+</td>
