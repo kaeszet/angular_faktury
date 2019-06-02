@@ -1,6 +1,15 @@
+import { Autocomplete } from './../model/autocomplete/autocomplete';
 import { PrzelicznikCeny, CenaPozycji } from './../model/przelicznik-ceny/przelicznik-ceny';
 import { FakturaPozycja, Jednostka, Podatek } from './../model/item';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { AutocompleteCatalog } from '../model/autocomplete/autocomplete-catalog';
+import { Subject } from 'rxjs';
+import { debounceTime, switchMap, tap, map, retry} from 'rxjs/operators';
+
+interface AutocompleteSuggestion {
+  name: string;
+  label: string;
+}
 
 
 @Component({
@@ -10,10 +19,13 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 })
 export class PojedynczaPozycjaComponent implements OnInit {
 
+  readonly czasOczekiwaniaPrzedSzukaniem = 400;
+
   @Input()
   private pozycja: FakturaPozycja;
   @Input()
   private lp: number;
+
   private dostepneJednostki: Jednostka[] = [
     Jednostka.sztuka,
     Jednostka.godzina,
@@ -26,8 +38,22 @@ export class PojedynczaPozycjaComponent implements OnInit {
   ];
   @Output()
   private pozycjaUsunieta: EventEmitter<FakturaPozycja> = new EventEmitter<FakturaPozycja>();
+  private szukajQuery = new Subject<string>();
+  private szukajWynik = this.szukajQuery.pipe(
+    debounceTime(this.czasOczekiwaniaPrzedSzukaniem),
+    switchMap( q => this.autoCompletesCatalog.items(q)),
+    tap(data => console.log(data)),
+    map(data => this.zmianaFormatu(data)),
+    tap(data => console.log(data)),
+    retry(3)
+
+  );
+
+  sugestie: AutocompleteSuggestion[] = [];
+
   constructor(
-    private przelicznikCeny: PrzelicznikCeny
+    private przelicznikCeny: PrzelicznikCeny,
+    private autoCompletesCatalog: AutocompleteCatalog
   ) {}
 
   ngOnInit() {
@@ -35,6 +61,9 @@ export class PojedynczaPozycjaComponent implements OnInit {
       ...this.pozycja,
       podatek: Podatek.podat_23
     };
+    this.szukajWynik.subscribe((items) => {
+      this.sugestie = items;
+    });
 
   }
   usunPozycje(): void {
@@ -74,5 +103,26 @@ export class PojedynczaPozycjaComponent implements OnInit {
       podatek: this.pozycja.podatek,
     });
     this.zaktualizujWZaleznosciOdWyniku(wynik);
+  }
+
+  przechwycAutocomplete($event: any): void {
+    this.szukajQuery.next($event.target.value);
+  }
+
+  zmianaFormatu(data: Autocomplete[]): AutocompleteSuggestion[] {
+    return data.map( i => {
+      return {
+        name: i.nazwa,
+        label: i.nazwa
+      };
+    });
+  }
+
+  wyborSugestii(item: AutocompleteSuggestion): void {
+    this.pozycja = {
+      ...this.pozycja,
+      nazwa: item.name
+    };
+    this.sugestie = [];
   }
 }

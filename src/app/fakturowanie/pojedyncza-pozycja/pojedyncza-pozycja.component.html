@@ -2,7 +2,10 @@
   {{lp}}
 </th>
 <td>
-  <input class="form-control" type="text" name="nazwa" [value]=pozycja.nazwa />
+  <input class="form-control" type="text" name="nazwa" [value]=pozycja.nazwa (keyup)=przechwycAutocomplete($event) autocomplete="off" />
+  <ul class="pojedyncza-pozycja__lista-sugestii" *ngIf="sugestie.length > 0">
+    <li class="pojedyncza-pozycja__sugestia-item" *ngFor="let sugestia of sugestie" (click)=wyborSugestii(sugestia)>{{sugestia.label}}</li>
+  </ul>
 </td>
 <td>
   <input class="form-control" type="number" name="ilosc" [value]=pozycja.ilosc />
