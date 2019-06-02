@@ -1,3 +1,4 @@
+import { HttpAutocompleteCatalog } from './model/autocomplete/http-autocomplete-catalog';
 import { LocalAutocompleteCatalog } from './model/autocomplete/local-autocomplete-catalog';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -6,8 +7,9 @@ import { FakturaPozycjaComponent } from './faktura-pozycje/faktura-pozycja.compo
 import { PojedynczaPozycjaComponent } from './pojedyncza-pozycja/pojedyncza-pozycja.component';
 import { FormsModule } from '@angular/forms';
 import { PrzelicznikCeny } from './model/przelicznik-ceny/przelicznik-ceny';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AutocompleteCatalog } from './model/autocomplete/autocomplete-catalog';
+
 
 
 @NgModule({
@@ -22,8 +24,11 @@ import { AutocompleteCatalog } from './model/autocomplete/autocomplete-catalog';
     {
       provide: PrzelicznikCeny, useFactory: () => new PrzelicznikCeny()
     },
+    // {
+      // provide: AutocompleteCatalog, useFactory: () => new LocalAutocompleteCatalog()
+    // }
     {
-      provide: AutocompleteCatalog, useFactory: () => new LocalAutocompleteCatalog()
+      provide: AutocompleteCatalog, useFactory: (http: HttpClient) => new HttpAutocompleteCatalog(http), deps: [HttpClient]
     }
   ]
 })
