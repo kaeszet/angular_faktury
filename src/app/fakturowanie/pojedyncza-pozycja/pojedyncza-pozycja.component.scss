@@ -7,7 +7,7 @@ input[type="number"]::-webkit-outer-spin-button {
     margin: 0;
 }
 
-.pojedyncza-sugestia {
+.pojedyncza-pozycja {
     &__lista-sugestii {
         position: absolute;
         border: 2px black solid;
@@ -17,8 +17,10 @@ input[type="number"]::-webkit-outer-spin-button {
         min-width: 300px;
     }
     &__sugestia-item {
-        &::hover {
+        
+        &:hover {
             cursor: pointer;
+
         }
     }
 }
