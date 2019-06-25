@@ -1,3 +1,4 @@
 <div class="faktura">
-  <app-faktura-pozycja></app-faktura-pozycja>
+  <app-faktura-pozycja [pozycje]=faktura.pozycje (pozycjeZmienione)=zaktualizujPozycje($event)></app-faktura-pozycja>
+  <app-faktura-podsumowanie [podsumowanie]=fakturaPodsumowanie></app-faktura-podsumowanie>
 </div>

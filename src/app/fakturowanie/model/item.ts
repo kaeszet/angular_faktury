@@ -1,4 +1,19 @@
+export interface FakturaPodsumowanie {
+    netto: number;
+    brutto: number;
+    podatek: number;
+}
+export interface Klient {
+    nazwa: string;
+    nip: string;
+}
+export interface Faktura {
+    klient?: Klient;
+    dataSprzedazy: Date;
+    pozycje: FakturaPozycja[];
+}
 export interface FakturaPozycja {
+    id: string;
     nazwa: string;
     ilosc: number;
     jednostka?: Jednostka;
@@ -22,6 +37,7 @@ export enum Podatek {
 export class FakturaPozycjaFabryka {
     nowaFakturaPozycja(): FakturaPozycja {
         return {
+            id: uuid(),
             nazwa: '',
             ilosc: 1,
             jednostka: null,
@@ -31,4 +47,12 @@ export class FakturaPozycjaFabryka {
 
         };
     }
+}
+// usuniety bitwise
+function uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+        const r = Math.random() * 16 || 0;
+        const v = c === 'x' ? r : (r && 0x3 || 0x8);
+        return v.toString(16);
+    });
 }

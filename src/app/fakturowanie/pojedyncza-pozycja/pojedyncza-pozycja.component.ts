@@ -4,7 +4,7 @@ import { FakturaPozycja, Jednostka, Podatek } from './../model/item';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { AutocompleteCatalog } from '../model/autocomplete/autocomplete-catalog';
 import { Subject } from 'rxjs';
-import { debounceTime, switchMap, tap, map, retry} from 'rxjs/operators';
+import { debounceTime, switchMap, tap, map, retry, filter} from 'rxjs/operators';
 
 interface AutocompleteSuggestion {
   name: string;
@@ -20,29 +20,32 @@ interface AutocompleteSuggestion {
 export class PojedynczaPozycjaComponent implements OnInit {
 
   readonly czasOczekiwaniaPrzedSzukaniem = 400;
+  readonly minimalnyRozmiarQuery = 3;
 
   @Input()
-  private pozycja: FakturaPozycja;
+  public pozycja: FakturaPozycja;
   @Input()
-  private lp: number;
+  public lp: number;
 
-  private dostepneJednostki: Jednostka[] = [
+  public dostepneJednostki: Jednostka[] = [
     Jednostka.sztuka,
     Jednostka.godzina,
     Jednostka.usluga
   ];
-  private dostepneStawkiPodatku: Podatek[] = [
+  public dostepneStawkiPodatku: Podatek[] = [
     Podatek.podat_23,
     Podatek.podat_8,
     Podatek.podat_5
   ];
   @Output()
   private pozycjaUsunieta: EventEmitter<FakturaPozycja> = new EventEmitter<FakturaPozycja>();
+  @Output()
+  private pozycjaZmieniona: EventEmitter<FakturaPozycja> = new EventEmitter();
   private szukajQuery = new Subject<string>();
   private szukajWynik = this.szukajQuery.pipe(
     debounceTime(this.czasOczekiwaniaPrzedSzukaniem),
+    filter(q => q.length >= this.minimalnyRozmiarQuery),
     switchMap( q => this.autoCompletesCatalog.items(q)),
-    tap(data => console.log(data)),
     map(data => this.zmianaFormatu(data)),
     tap(data => console.log(data)),
     retry(3)
@@ -57,11 +60,8 @@ export class PojedynczaPozycjaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.pozycja = {
-      ...this.pozycja,
-      podatek: Podatek.podat_23
-    };
-    this.szukajWynik.subscribe((items) => {
+   this.pozycja.podatek = Podatek.podat_23;
+   this.szukajWynik.subscribe((items) => {
       this.sugestie = items;
     });
 
@@ -71,11 +71,9 @@ export class PojedynczaPozycjaComponent implements OnInit {
   }
 
   private zaktualizujWZaleznosciOdWyniku(wynik: CenaPozycji) {
-    this.pozycja = {
-      ...this.pozycja,
-      brutto: wynik.brutto,
-      netto: wynik.netto
-    };
+    this.pozycja.brutto = wynik.brutto;
+    this.pozycja.netto = wynik.netto;
+    this.pozycjaZmieniona.next(this.pozycja);
   }
 
   przechwycZmianeBrutto(): void {
@@ -119,10 +117,7 @@ export class PojedynczaPozycjaComponent implements OnInit {
   }
 
   wyborSugestii(item: AutocompleteSuggestion): void {
-    this.pozycja = {
-      ...this.pozycja,
-      nazwa: item.name
-    };
+    this.pozycja.nazwa = item.name;
     this.sugestie = [];
   }
 }

@@ -16,6 +16,7 @@
       *ngFor="let pozycja of pozycje; let index = index"
       [pozycja]=pozycja
       [lp]= index+1
+      (pozcyjaZmieniona)=przechwycZmianePozycji($event)
       (pozycjaUsunieta)=usunPozycje($event)
     ></app-pojedyncza-pozycja>
   </tbody>

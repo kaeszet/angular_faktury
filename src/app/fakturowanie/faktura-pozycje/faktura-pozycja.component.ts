@@ -1,5 +1,6 @@
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FakturaPozycja, FakturaPozycjaFabryka} from '../model/item';
-import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-faktura-pozycja',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./faktura-pozycja.component.scss']
 })
 export class FakturaPozycjaComponent implements OnInit {
-  private pozycje: FakturaPozycja[] = [];
+  @Input()
+  private pozycje: FakturaPozycja[];
+  @Output()
+  pozycjeZmienione: EventEmitter<FakturaPozycja[]> = new EventEmitter();
+
   private fakturaPozycjaFabryka: FakturaPozycjaFabryka;
 
   constructor() {
@@ -18,11 +23,14 @@ export class FakturaPozycjaComponent implements OnInit {
   }
   dodajPozycje(): void {
     this.pozycje.push(this.fakturaPozycjaFabryka.nowaFakturaPozycja());
-    console.log(this.pozycje);
+    this.pozycjeZmienione.next(this.pozycje);
   }
   usunPozycje(pozycja: FakturaPozycja): void {
-    this.pozycje = this.pozycje.filter(p => p !== pozycja);
-    console.log(pozycja);
+    this.pozycje = this.pozycje.filter(p => p.id !== pozycja.id);
+    this.pozycjeZmienione.next(this.pozycje);
+  }
+  przechwycZmianePozycji(pozycja: FakturaPozycja): void {
+    this.pozycjeZmienione.next(this.pozycje);
   }
 
 }

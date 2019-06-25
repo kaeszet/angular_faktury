@@ -9,11 +9,11 @@ import { FormsModule } from '@angular/forms';
 import { PrzelicznikCeny } from './model/przelicznik-ceny/przelicznik-ceny';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AutocompleteCatalog } from './model/autocomplete/autocomplete-catalog';
-
+import { FakturaPodsumowanieComponent } from './faktura-podsumowanie/faktura-podsumowanie.component';
 
 
 @NgModule({
-  declarations: [FakturaComponent, FakturaPozycjaComponent, PojedynczaPozycjaComponent],
+  declarations: [FakturaComponent, FakturaPozycjaComponent, PojedynczaPozycjaComponent, FakturaPodsumowanieComponent],
   imports: [
     CommonModule,
     FormsModule,
