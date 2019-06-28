@@ -12,6 +12,7 @@ import { AutocompleteCatalog } from './model/autocomplete/autocomplete-catalog';
 import { FakturaPodsumowanieComponent } from './faktura-podsumowanie/faktura-podsumowanie.component';
 
 
+
 @NgModule({
   declarations: [FakturaComponent, FakturaPozycjaComponent, PojedynczaPozycjaComponent, FakturaPodsumowanieComponent],
   imports: [

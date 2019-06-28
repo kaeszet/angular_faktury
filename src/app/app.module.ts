@@ -1,5 +1,4 @@
-
-
+import { KlienciModule } from './klienci/klienci.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
@@ -7,6 +6,7 @@ import { AppComponent } from './app.component';
 import { FakturowanieModule } from './fakturowanie/fakturowanie.module';
 import { NawigacjaComponent } from './layout/nawigacja/nawigacja.component';
 import { HeroModule } from './hero/hero.module';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +17,8 @@ import { HeroModule } from './hero/hero.module';
     BrowserModule,
     AppRoutingModule,
     HeroModule,
-    FakturowanieModule
+    FakturowanieModule,
+    KlienciModule
   ],
   providers: [],
   bootstrap: [AppComponent]

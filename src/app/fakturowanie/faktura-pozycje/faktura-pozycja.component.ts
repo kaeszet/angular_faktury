@@ -9,7 +9,7 @@ import { FakturaPozycja, FakturaPozycjaFabryka} from '../model/item';
 })
 export class FakturaPozycjaComponent implements OnInit {
   @Input()
-  private pozycje: FakturaPozycja[];
+  public pozycje: FakturaPozycja[];
   @Output()
   pozycjeZmienione: EventEmitter<FakturaPozycja[]> = new EventEmitter();
 
