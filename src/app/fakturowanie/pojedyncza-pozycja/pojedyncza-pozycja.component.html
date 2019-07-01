@@ -14,7 +14,7 @@
   </ul>
 </td>
 <td>
-  <input class="form-control" type="number" name="ilosc" [value]=pozycja.ilosc [(ngModel)]=pozycja.ilosc/>
+  <input class="form-control p-1" id="ilosc" type="number" name="ilosc" [value]=pozycja.ilosc [(ngModel)]=pozycja.ilosc/>
 </td>
 <td>
   <select class="form-control" name="jednostka" [value]=pozycja.jednostka [(ngModel)]=pozycja.jednostka>
@@ -30,8 +30,21 @@
   </div>
 </td>
 <td>
-    <select [(ngModel)]=pozycja.podatek class="form-control" name="podatek" [value]=pozycja.podatek (change)=przechwycZmianePodatku($event)>
-        <option *ngFor="let t of dostepneStawkiPodatku" [value]=t>{{t}}</option>
+  <select [(ngModel)]=pozycja.rabat class="form-control p-1" name="rabat" [value]=pozycja.rabat (change)=przechwycZmianePodatku($event)>
+      <option *ngFor="let r of dostepneRabaty" [value]=r>{{r | percent}}</option>
+  </select>
+</td>
+<td>
+  <div class="input-group">
+    <input [(ngModel)]=pozycja.netto_rabat type="number" class="form-control" name="netto_rabat" [value]=pozycja.netto_rabat (change)=przechwycZmianeNettoRabatu($event) />
+    <div class="input-group-append">
+      <span class="input-group-text">PLN</span>
+    </div>
+  </div>
+</td>
+<td>
+    <select [(ngModel)]=pozycja.podatek class="form-control p-1" name="podatek" [value]=pozycja.podatek (change)=przechwycZmianePodatku($event)>
+        <option *ngFor="let t of dostepneStawkiPodatku" [value]=t>{{t | percent}}</option>
     </select>
 </td>
 <td>

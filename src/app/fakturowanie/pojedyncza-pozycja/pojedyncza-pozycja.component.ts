@@ -1,6 +1,6 @@
 import { Autocomplete } from './../model/autocomplete/autocomplete';
 import { PrzelicznikCeny, CenaPozycji } from './../model/przelicznik-ceny/przelicznik-ceny';
-import { FakturaPozycja, Jednostka, Podatek } from './../model/item';
+import { FakturaPozycja, Jednostka, Podatek, Rabat } from './../model/item';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { AutocompleteCatalog } from '../model/autocomplete/autocomplete-catalog';
 import { Subject } from 'rxjs';
@@ -37,10 +37,20 @@ export class PojedynczaPozycjaComponent implements OnInit {
     Podatek.podat_8,
     Podatek.podat_5
   ];
+  public dostepneRabaty: Rabat[] = [
+    Rabat.rabat_0,
+    Rabat.rabat_05,
+    Rabat.rabat_1,
+    Rabat.rabat_15,
+    Rabat.rabat_2,
+    Rabat.rabat_25,
+    Rabat.rabat_3
+  ];
   @Output()
   private pozycjaUsunieta: EventEmitter<FakturaPozycja> = new EventEmitter<FakturaPozycja>();
   @Output()
-  private pozycjaZmieniona: EventEmitter<FakturaPozycja> = new EventEmitter();
+  private pozycjaZmieniona: EventEmitter<FakturaPozycja> = new EventEmitter<FakturaPozycja>();
+
   private szukajQuery = new Subject<string>();
   private szukajWynik = this.szukajQuery.pipe(
     debounceTime(this.czasOczekiwaniaPrzedSzukaniem),
@@ -61,6 +71,7 @@ export class PojedynczaPozycjaComponent implements OnInit {
 
   ngOnInit() {
    this.pozycja.podatek = Podatek.podat_23;
+   this.pozycja.rabat = Rabat.rabat_0;
    this.szukajWynik.subscribe((items) => {
       this.sugestie = items;
     });
@@ -71,14 +82,17 @@ export class PojedynczaPozycjaComponent implements OnInit {
   }
 
   private zaktualizujWZaleznosciOdWyniku(wynik: CenaPozycji) {
-    this.pozycja.brutto = wynik.brutto;
-    this.pozycja.netto = wynik.netto;
+    this.pozycja.brutto = Number(wynik.brutto);
+    this.pozycja.netto = Number(wynik.netto);
+    this.pozycja.netto_rabat = Number(wynik.netto_rabat);
     this.pozycjaZmieniona.next(this.pozycja);
   }
 
   przechwycZmianeBrutto(): void {
     const wynik = this.przelicznikCeny.oblicz({
       netto: null,
+      rabat: this.pozycja.rabat,
+      netto_rabat: null,
       brutto: this.pozycja.brutto,
       podatek: this.pozycja.podatek
     });
@@ -88,6 +102,18 @@ export class PojedynczaPozycjaComponent implements OnInit {
   przechwycZmianeNetto(): void {
     const wynik = this.przelicznikCeny.oblicz({
       netto: this.pozycja.netto,
+      rabat: this.pozycja.rabat,
+      netto_rabat: null,
+      brutto: null,
+      podatek: this.pozycja.podatek
+    });
+    this.zaktualizujWZaleznosciOdWyniku(wynik);
+  }
+  przechwycZmianeNettoRabatu(): void {
+    const wynik = this.przelicznikCeny.oblicz({
+      netto: null,
+      rabat: this.pozycja.rabat,
+      netto_rabat: this.pozycja.netto_rabat,
       brutto: null,
       podatek: this.pozycja.podatek
     });
@@ -97,6 +123,8 @@ export class PojedynczaPozycjaComponent implements OnInit {
   przechwycZmianePodatku(): void {
     const wynik = this.przelicznikCeny.oblicz({
       netto: this.pozycja.netto,
+      rabat: this.pozycja.rabat,
+      netto_rabat: this.pozycja.netto_rabat,
       brutto: this.pozycja.brutto,
       podatek: this.pozycja.podatek,
     });

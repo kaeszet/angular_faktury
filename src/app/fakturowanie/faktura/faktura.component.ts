@@ -1,3 +1,4 @@
+import { Podatek } from './../model/item';
 import { Component, OnInit } from '@angular/core';
 import { Faktura, FakturaPodsumowanie } from '../model/item';
 @Component({
@@ -19,12 +20,13 @@ export class FakturaComponent implements OnInit {
     this.fakturaPodsumowanie = this.przeliczPodsumowanie(this.faktura);
   }
   przeliczPodsumowanie(faktura: Faktura): FakturaPodsumowanie {
-    const brutto = faktura.pozycje.map(i => i.brutto).reduce((sum, i) => sum + i, 0);
-    const netto = faktura.pozycje.map(i => i.netto).reduce((sum, i) => sum + i, 0);
+    const brutto = this.round(faktura.pozycje.map(i => i.brutto).reduce((sum, i) => sum + i, 0), 2);
+    const netto = this.round(faktura.pozycje.map(i => i.netto_rabat).reduce((sum, i) => sum + i, 0), 2);
+    const podatek = this.round(brutto - netto, 2);
     return {
       brutto,
       netto,
-      podatek: this.round(brutto - netto, 2)
+      podatek
     };
   }
   private round(wartosc: number, cyfryZaokr: number): number {

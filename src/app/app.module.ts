@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { KlienciModule } from './klienci/klienci.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -6,6 +7,7 @@ import { AppComponent } from './app.component';
 import { FakturowanieModule } from './fakturowanie/fakturowanie.module';
 import { NawigacjaComponent } from './layout/nawigacja/nawigacja.component';
 import { HeroModule } from './hero/hero.module';
+
 
 
 @NgModule({
@@ -18,8 +20,10 @@ import { HeroModule } from './hero/hero.module';
     AppRoutingModule,
     HeroModule,
     FakturowanieModule,
-    KlienciModule
+    KlienciModule,
+    FormsModule
   ],
+  exports: [FormsModule],
   providers: [],
   bootstrap: [AppComponent]
 })

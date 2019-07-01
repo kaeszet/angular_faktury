@@ -26,7 +26,9 @@ export class FakturaPozycjaComponent implements OnInit {
     this.pozycjeZmienione.next(this.pozycje);
   }
   usunPozycje(pozycja: FakturaPozycja): void {
-    this.pozycje = this.pozycje.filter(p => p.id !== pozycja.id);
+    const tempID = this.pozycje.findIndex(x => x.id === pozycja.id);
+    this.pozycje.splice(tempID, 1);
+    // this.pozycje = this.pozycje.filter(p => p.id !== pozycja.id);
     this.pozycjeZmienione.next(this.pozycje);
   }
   przechwycZmianePozycji(pozycja: FakturaPozycja): void {

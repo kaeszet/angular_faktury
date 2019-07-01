@@ -1,37 +1,41 @@
-<form>
+<div class="container">
+  <form [formGroup]="nowyKlient" (ngSubmit)="wprowadzDane(nowyKlient.value)">
     <div class="form-row">
       <div class="form-group col-md-9">
-        <label for="inputNazwa">Nazwa firmy</label>
-        <input type="text" class="form-control" id="inputNazwa" placeholder="Wpisz pełną nazwę firmy...">
+        <label for="nazwa">Nazwa firmy</label>
+        <input type="text" class="form-control" id="nazwaInput" formControlName="nazwa" placeholder="Wpisz pełną nazwę firmy...">
       </div>
       <div class="form-group col-md-3">
-        <label for="inputNIP">NIP</label>
-        <input type="text" class="form-control" id="inputPassword4" placeholder="NIP">
+      <label for="nip">NIP</label>
+      <input type="text" class="form-control" id="nipInput" formControlName="nip" placeholder="NIP">
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group col-md-9">
-        <label for="inputAddress">Siedziba firmy</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="Ulica">
-      </div>
-      <div class="form-group col-md-1">
-          <label for="inputAddress">Nr domu</label>
-          <input type="text" class="form-control" id="inputAddress">
+    <div formGroupName="adresKlienta">
+        <div class="form-row">
+            <div class="form-group col-md-9">
+              <label for="ulica">Siedziba firmy</label>
+              <input type="text" class="form-control" id="ulicaInput" formControlName="ulica" placeholder="Ulica">
+            </div>
+            <div class="form-group col-md-1">
+              <label for="nrDom">Nr domu</label>
+              <input type="number" class="form-control" id="nrDomInput" formControlName="nrDom">
+            </div>
+            <div class="form-group col-md-1">
+              <label for="nrMieszk">Nr lokalu</label>
+              <input type="number" class="form-control" id="nrMieszkInput" formControlName="nrMieszk">
+            </div>
         </div>
-      <div class="form-group col-md-1">
-            <label for="inputAddress">Nr lokalu</label>
-            <input type="text" class="form-control" id="inputAddress">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-2">
-          <label for="inputZip">Kod pocztowy</label>
-          <input type="text" class="form-control" id="inputZip" placeholder="00-000">
-      </div>
-      <div class="form-group col-md-4">
-        <label for="inputCity">Miasto</label>
-        <input type="text" class="form-control" id="inputCity">
-      </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Zapisz</button>
+        <div class="form-row">
+            <div class="form-group col-md-2">
+              <label for="kod">Kod pocztowy</label>
+              <input type="text" class="form-control" id="kodInput" formControlName="kod">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="miasto">Miasto</label>
+              <input type="text" class="form-control" id="miastoInput" formControlName="miasto">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Zapisz</button>
+        </div>
   </form>
+</div>

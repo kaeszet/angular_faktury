@@ -1,13 +1,15 @@
-<table class="table">
+<table class="table table-sm">
   <thead>
     <tr>
       <th scope="col">LP</th>
-      <th scope="col">Nazwa pozycji</th>
-      <th scope="col">Ilość</th>
-      <th scope="col">Jednostka</th>
-      <th scope="col">Cena netto</th>
-      <th scope="col">Podatek</th>
-      <th scope="col">Brutto</th>
+      <th scope="col" style="width: 26%">Pozycja</th>
+      <th scope="col" style="width: 2%">Ilość</th>
+      <th scope="col" style="width: 3%">Jednostka</th>
+      <th scope="col" style="width: 15%">Netto</th>
+      <th scope="col" style="width: 7%">Rabat</th>
+      <th scope="col" style="width: 15%">Netto po rabacie</th>
+      <th scope="col" style="width: 7%">Podatek</th>
+      <th scope="col" style="width: 15%">Brutto</th>
       <th scope="col"></th>
     </tr>
   </thead>
@@ -16,7 +18,7 @@
       *ngFor="let pozycja of pozycje; let index = index"
       [pozycja]=pozycja
       [lp]= index+1
-      (pozcyjaZmieniona)=przechwycZmianePozycji($event)
+      (pozycjaZmieniona)=przechwycZmianePozycji($event)
       (pozycjaUsunieta)=usunPozycje($event)
     ></app-pojedyncza-pozycja>
   </tbody>

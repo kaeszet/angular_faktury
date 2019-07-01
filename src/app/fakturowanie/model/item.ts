@@ -5,7 +5,17 @@ export interface FakturaPodsumowanie {
 }
 export interface Klient {
     nazwa: string;
+    adres: string;
     nip: string;
+}
+export interface KlientBinding {
+    nazwa: string;
+    nip: string;
+    ulica: string;
+    nrDom: number;
+    nrMieszk: number;
+    kod: string;
+    miasto: string;
 }
 export interface Faktura {
     klient?: Klient;
@@ -18,6 +28,8 @@ export interface FakturaPozycja {
     ilosc: number;
     jednostka?: Jednostka;
     netto?: number;
+    rabat?: Rabat;
+    netto_rabat?: number;
     podatek?: Podatek;
     brutto?: number;
 }
@@ -33,6 +45,15 @@ export enum Podatek {
     podat_8 = 0.08,
     podat_5 = 0.05
 }
+export enum Rabat {
+    rabat_0 = 0.0,
+    rabat_05 = 0.05,
+    rabat_1 = 0.1,
+    rabat_15 = 0.15,
+    rabat_2 = 0.2,
+    rabat_25 = 0.25,
+    rabat_3 = 0.3,
+}
 
 export class FakturaPozycjaFabryka {
     nowaFakturaPozycja(): FakturaPozycja {
@@ -42,6 +63,8 @@ export class FakturaPozycjaFabryka {
             ilosc: 1,
             jednostka: null,
             netto: null,
+            rabat: null,
+            netto_rabat: null,
             podatek: null,
             brutto: null
 
