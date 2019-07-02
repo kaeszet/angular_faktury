@@ -2,17 +2,22 @@
   {{ID}}
 </th>
 <td>
-  <div class="input-group">
-    
-  </div>
+  <p>{{klient.nazwa}}</p>
 </td>
 <td>
-  <div class="input-group">
-    
-  </div>
+  <p>{{klient.adres}}</p>
 </td>
 <td>
-  <div class="input-group">
-    
-  </div>
+  <p>{{klient.nip}}</p>
 </td>
+<td>
+  <button (click)=usunPozycje()>
+    <i class="fa fa-trash"></i>
+  </button>
+</td>
+<td>
+    <button (click)=usunPozycje()>
+      <i class="fa fa-copy"></i>
+    </button>
+</td>
+

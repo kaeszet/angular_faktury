@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { FormularzTabelaService } from './../formularz-tabela.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Klient, KlientBinding } from 'src/app/fakturowanie/model/item';
-import { FormGroup, FormControl, NgForm, FormsModule } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-klient',
@@ -10,10 +11,12 @@ import { FormGroup, FormControl, NgForm, FormsModule } from '@angular/forms';
 
 export class KlientComponent implements OnInit {
 
-  @Input()
   public klientBinding: Klient[] = [];
   public klientForm: KlientBinding;
-  public klient: Klient;
+  klient: Klient;
+
+  // @Output() messageEvent = new EventEmitter<Klient>();
+  @Output() wyslijTabliceKlientow = new EventEmitter<Klient[]>();
 
   nowyKlient = new FormGroup({
     nazwa: new FormControl(''),
@@ -32,6 +35,7 @@ export class KlientComponent implements OnInit {
 
   ngOnInit() {
   }
+
   wprowadzDane(v: FormGroup) {
 
     this.klientForm = {
@@ -43,8 +47,13 @@ export class KlientComponent implements OnInit {
       kod: this.nowyKlient.get('adresKlienta').get('kod').value,
       miasto: this.nowyKlient.get('adresKlienta').get('miasto').value,
     };
-    console.log(this.klientForm.nazwa);
-    console.log(this.klientForm.miasto);
+
+    this.klient = {
+      nazwa: this.klientForm.nazwa,
+      nip: this.klientForm.nip,
+      // tslint:disable-next-line:max-line-length
+      adres: `${this.klientForm.ulica} ${this.klientForm.nrDom.toString()}/${this.klientForm.nrMieszk.toString()} ${this.klientForm.kod} ${this.klientForm.miasto}`
+    };
 
     this.klientBinding.push({
       nazwa: this.klientForm.nazwa,
@@ -54,6 +63,16 @@ export class KlientComponent implements OnInit {
 
     });
     console.log(this.klientBinding);
+    // this.messageEvent.emit(this.klient);
+    this.wyslijTabliceKlientow.next(this.klientBinding);
+    localStorage.setItem('klientBinding', JSON.stringify(this.klientBinding));
+    /* this.data.changeMessage({
+      nazwa: this.klientForm.nazwa,
+      nip: this.klientForm.nip,
+      // tslint:disable-next-line:max-line-length
+      adres: `${this.klientForm.ulica} ${this.klientForm.nrDom.toString()}/${this.klientForm.nrMieszk.toString()} ${this.klientForm.kod} ${this.klientForm.miasto}`
+    }); */
   }
+
 
 }
