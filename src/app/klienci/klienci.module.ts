@@ -6,12 +6,13 @@ import { CommonModule } from '@angular/common';
 import { StworzKlientaComponent } from './stworz-klienta/stworz-klienta.component';
 import { KlienciListaComponent } from './klienci-lista/klienci-lista.component';
 
+
 @NgModule({
   declarations: [StworzKlientaComponent, KlientComponent, KlienciListaComponent],
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class KlienciModule { }

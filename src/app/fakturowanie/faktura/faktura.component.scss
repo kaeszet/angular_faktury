@@ -2,6 +2,8 @@
     min-width: 50%;
     height: 200px;
 }
-.border {
-    
+@media print {
+    #ukryjPrzyDruku {
+        display: none;
+    }
 }

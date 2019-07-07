@@ -1,3 +1,6 @@
+<div *ngIf="czyZapisane" class="d-flex justify-content-around" >
+    <p id="nrFaktury"><b>Numer faktury: </b>{{nrFaktury}}</p>
+</div>
 <table class="table table-sm">
   <thead>
     <tr>
@@ -24,11 +27,11 @@
   </tbody>
 </table>
 <div class="faktura-pozycje__actions">
-  <button (click)="dodajPozycje()" type="button" class="btn btn-primary faktura-pozycje__add-action">
+  <button (click)="dodajPozycje()" type="button" class="btn btn-primary faktura-pozycje__add-action" id="ukryjPrzyDruku">
     dodaj pozycję
     <i class="fa fa-plus"></i>
   </button>
-  <button (click)="dodajPozycje()" type="button" class="btn btn-success faktura-pozycje__add-action">
+  <button (click)="zapiszFakture()" type="button" class="btn btn-success faktura-pozycje__add-action" id="ukryjPrzyDruku">
     Zapisz
     <i class="fa fa-save"></i>
   </button>

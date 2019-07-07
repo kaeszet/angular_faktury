@@ -8,4 +8,11 @@
         margin: auto
     }
 }
-
+#nrFaktury {
+    font-size: 24px;
+}
+@media print {
+    #ukryjPrzyDruku {
+        display: none;
+    }
+}

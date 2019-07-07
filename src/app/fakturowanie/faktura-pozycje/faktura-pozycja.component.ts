@@ -14,6 +14,9 @@ export class FakturaPozycjaComponent implements OnInit {
   pozycjeZmienione: EventEmitter<FakturaPozycja[]> = new EventEmitter();
 
   private fakturaPozycjaFabryka: FakturaPozycjaFabryka;
+  public nrFaktury: string;
+  private data: string;
+  public czyZapisane = false;
 
   constructor() {
     this.fakturaPozycjaFabryka = new FakturaPozycjaFabryka();
@@ -33,6 +36,13 @@ export class FakturaPozycjaComponent implements OnInit {
   }
   przechwycZmianePozycji(pozycja: FakturaPozycja): void {
     this.pozycjeZmienione.next(this.pozycje);
+  }
+  zapiszFakture(): void {
+    this.czyZapisane = true;
+    this.data = Date.now().toString();
+    this.nrFaktury = `Fakt/${this.data}`;
+    console.log(this.nrFaktury);
+    window.print();
   }
 
 }

@@ -34,8 +34,16 @@ export class KlientComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.pobierzZLocalStorage();
   }
 
+  pobierzZLocalStorage() {
+    if (localStorage.getItem('klientBinding') === null) {
+      this.klientBinding = [];
+    } else {
+      this.klientBinding = JSON.parse(localStorage.getItem('klientBinding'));
+    }
+  }
   wprowadzDane(v: FormGroup) {
 
     this.klientForm = {

@@ -1,3 +1,4 @@
+import { KlientBinding } from './../../fakturowanie/model/item';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Klient } from 'src/app/fakturowanie/model/item';
 import { FormularzTabelaService } from '../formularz-tabela.service';
@@ -42,5 +43,15 @@ export class StworzKlientaComponent implements OnInit {
       this.klienci = JSON.parse(localStorage.getItem('klientBinding'));
     }
   }
+  odbierzKlikKosza($event: Klient) {
+    const tempID = this.klienci.findIndex(x => x.nip === $event.nip);
+    this.klienci.splice(tempID, 1);
+    console.log(this.klienci);
+    localStorage.removeItem('klientBinding');
+    localStorage.setItem('klientBinding', JSON.stringify(this.klienci));
+    console.log(localStorage);
+    // this.zmianaKlienci.next(this.klienci);
+  }
+
 
 }

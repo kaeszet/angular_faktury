@@ -1,4 +1,4 @@
-<th scope="row">
+<th scope="row" style="font-size: 25px">
   {{lp}}
 </th>
 <td>
@@ -36,7 +36,7 @@
 </td>
 <td>
   <div class="input-group">
-    <input [(ngModel)]=pozycja.netto_rabat type="number" class="form-control" name="netto_rabat" [value]=pozycja.netto_rabat (change)=przechwycZmianeNettoRabatu($event) />
+    <input [(ngModel)]=pozycja.netto_rabat type="number" class="form-control" name="netto_rabat" [value]=pozycja.netto_rabat (change)=przechwycZmianeNettoRabatu($event) disabled=true />
     <div class="input-group-append">
       <span class="input-group-text">PLN</span>
     </div>
@@ -55,7 +55,7 @@
     </div>
   </div>
 <td>
-  <button (click)=usunPozycje()>
+  <button (click)=usunPozycje() id="ukryjPrzyDruku">
     <i class="fa fa-trash"></i>
   </button>
 </td>
